@@ -1,0 +1,6 @@
+# Install PyTorch with CUDA separately first (see README.md), then:
+#   pip install -r requirements.txt
+numpy
+opencv-python
+matplotlib
+tqdm
