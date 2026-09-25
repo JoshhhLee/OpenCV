@@ -1,6 +1,6 @@
 # CNN Learning Path: from building blocks to Camouflaged Object Detection
 
-Step-by-step PyTorch + OpenCV lessons. Every file runs on its own and ends with a **TRY IT** list of changes to make.
+Step-by-step PyTorch + OpenCV lessons as Jupyter notebooks. Run each one top to bottom (**Kernel → Restart & Run All**), then do the **✏️ TRY IT** boxes: change the code, re-run the cell, and see what changes.
 
 ## Setup (Windows PC with an NVIDIA GPU)
 
@@ -11,28 +11,30 @@ pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
 # 2. Other libraries
 pip install -r requirements.txt
 
-# 3. Check that everything works (GPU + dataset)
+# 3. Open the notebooks (or open the folder in VS Code with the Jupyter extension)
 cd cnn_learning
-python 00_check_setup.py
+jupyter notebook
 ```
 
-Set your dataset path once in `config.py` (`DATASET_ROOT`). Lessons save pictures to `cnn_learning/outputs/`.
+Start with `00_check_setup.ipynb` to check your GPU and dataset.
+
+Set your dataset path once in `config.py` (`DATASET_ROOT`). The notebooks import it, so keep `config.py` in the same folder as the notebooks.
 
 ## Roadmap
 
 | # | File | Topic | Status |
 |---|------|-------|--------|
-| 00 | `00_check_setup.py` | GPU, libraries, dataset layout | done |
-| 01 | `01_conv_blocks.py` | Conv = OpenCV filter, shapes, ConvBNReLU, DoubleConv, Residual, Dilated, Depthwise | done |
-| 02 | `02_encoder.py` | Stack blocks into an encoder, multi-scale features | next |
-| 03 | `03_decoder.py` | Upsampling + skip connections (concat vs add) | |
-| 04 | `04_unet.py` | Full UNet from scratch | |
-| 05 | `05_resnet_encoder.py` | Pretrained ResNet50 as the encoder | |
-| 06 | `06_unetpp.py` | UNet++ nested skips | |
-| 07 | `07_train_cod.py` | Dataset loader, loss (BCE + IoU), metrics, training on COD | |
-| 08 | `08_attention.py` | SE / CBAM attention modules | |
-| 09 | `09_sinet.py` | SINet: RF module, search + identification | |
-| 10 | `10_my_cod_net.py` | Your own COD architecture | |
+| 00 | `00_check_setup.ipynb` | GPU, libraries, dataset layout | done |
+| 01 | `01_conv_blocks.ipynb` | Conv = OpenCV filter, shapes, ConvBNReLU, DoubleConv, Residual, Dilated, Depthwise | done |
+| 02 | `02_encoder.ipynb` | Stack blocks into an encoder, multi-scale features | next |
+| 03 | `03_decoder.ipynb` | Upsampling + skip connections (concat vs add) | |
+| 04 | `04_unet.ipynb` | Full UNet from scratch | |
+| 05 | `05_resnet_encoder.ipynb` | Pretrained ResNet50 as the encoder | |
+| 06 | `06_unetpp.ipynb` | UNet++ nested skips | |
+| 07 | `07_train_cod.ipynb` | Dataset loader, loss (BCE + IoU), metrics, training on COD | |
+| 08 | `08_attention.ipynb` | SE / CBAM attention modules | |
+| 09 | `09_sinet.ipynb` | SINet: RF module, search + identification | |
+| 10 | `10_my_cod_net.ipynb` | Your own COD architecture | |
 
 ## Mental model
 
