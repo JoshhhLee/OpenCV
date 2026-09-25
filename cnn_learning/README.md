@@ -46,6 +46,12 @@ Training writes weights to `cnn_learning/checkpoints/` and appends each run to `
 | 09 | `09_sinet.ipynb` | SINet: RF module, search + identification | |
 | 10 | `10_my_cod_net.ipynb` | Your own COD architecture | |
 
+## Labs
+
+| File | What it's for |
+|---|---|
+| `unet_lab.ipynb` | **UNet workbench**: the original paper UNet (572 → 388) traced step by step, then `UNetLab`, a UNet with every part as a setting (padding, depth, width, block, bottleneck, norm, activation, down, up, merge, attention gates, SE). Includes a test bench (params, GFLOPs, memory, speed), a one-image check, training several variants on COD10K with a comparison plot, and a template for adding your own blocks and gates. |
+
 ## Mental model
 
 ```
