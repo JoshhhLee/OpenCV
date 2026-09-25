@@ -8,7 +8,8 @@ import torch
 
 # Where your COD dataset lives on your PC.
 # The r"..." (raw string) stops Windows backslashes being read as escape codes.
-DATASET_ROOT = r"D:\PhD\Dataset\COD1K Dataset"
+# (You can also set the COD_DATASET_ROOT environment variable instead of editing this line.)
+DATASET_ROOT = os.environ.get("COD_DATASET_ROOT", r"D:\PhD\Dataset\COD1K Dataset")
 
 # Your layout (from 00_check_setup):
 #   COD10K-v3/

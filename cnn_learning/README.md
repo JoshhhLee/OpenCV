@@ -25,6 +25,10 @@ Shared helper files (keep them next to the notebooks):
 - `blocks.py`: the Lesson 01 bricks (`ConvBNReLU`, `DoubleConv`, `ResidualBlock`, `DepthwiseSeparableConv`), `show()` and `to_tensor()`
 - `encoders.py`: the Lesson 02 encoders (`UNetEncoder`, `ConfigurableEncoder`, `ResNet50Encoder`)
 - `decoders.py`: the Lesson 03 decoder (`DecoderBlock`, `UNetDecoder`) and `SegModel` (encoder + decoder)
+- `data.py`: `CODDataset` and the OpenCV augmentations (Lesson 04)
+- `train_utils.py`: loss, metrics, `train_one_epoch`, `evaluate` (Lesson 04)
+
+Training writes weights to `cnn_learning/checkpoints/` and appends each run to `cnn_learning/outputs/results.csv` (both are git-ignored).
 
 ## Roadmap
 
@@ -34,11 +38,11 @@ Shared helper files (keep them next to the notebooks):
 | 01 | `01_conv_blocks.ipynb` | Conv = OpenCV filter, shapes, ConvBNReLU, DoubleConv, Residual, Dilated, Depthwise | done |
 | 02 | `02_encoder.ipynb` | UNet encoder, configurable encoder (the knobs), pretrained ResNet50, GPU budget | done |
 | 03 | `03_decoder.ipynb` | Upsampling, why skips matter, DecoderBlock/UNetDecoder, the knobs, one-image sanity check | done |
-| 04 | `04_train_unet.ipynb` | Training UNet on COD10K: data loader, augmentation, loss, metrics, checkpoints | next |
-| 05 | `05_resnet_unet.ipynb` | UNet with a pretrained ResNet50 encoder, freezing / fine-tuning | |
-| 06 | `06_unetpp.ipynb` | UNet++ nested skips | |
-| 07 | `07_cod_metrics.ipynb` | COD metrics (S-measure, E-measure, weighted F, MAE) and structure loss | |
-| 08 | `08_attention.ipynb` | SE / CBAM attention modules | |
+| 04 | `04_train_unet.ipynb` | Training on COD10K: splits, OpenCV augmentation, DataLoader, BCE+IoU loss, metrics, checkpoints, experiment log | done |
+| 05 | `05_unetpp.ipynb` | UNet++ nested skips, trained and compared in the log | next |
+| 06 | `06_attention.ipynb` | SE / CBAM attention in the skips and decoder | |
+| 07 | `07_cod_metrics.ipynb` | Full COD evaluation (S-measure, E-measure, weighted F, MAE at original size) and structure loss | |
+| 08 | `08_rf_module.ipynb` | Receptive-field (dilated) modules for multi-scale context | |
 | 09 | `09_sinet.ipynb` | SINet: RF module, search + identification | |
 | 10 | `10_my_cod_net.ipynb` | Your own COD architecture | |
 
