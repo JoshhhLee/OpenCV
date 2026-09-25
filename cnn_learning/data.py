@@ -107,3 +107,21 @@ class CODDataset(Dataset):
         image_t = torch.from_numpy(rgb).permute(2, 0, 1)                      # [3, H, W]
         mask_t = torch.from_numpy((mask > 127).astype(np.float32))[None]       # [1, H, W]
         return image_t, mask_t
+
+
+def make_splits(seed=42, val_fraction=0.1, quick=False):
+    """
+    The train / val / test split used by every training lesson (same seed = same split),
+    so results from different lessons can be compared fairly.
+    """
+    from config import cod10k_pairs
+
+    all_train = cod10k_pairs("Train")
+    test_pairs = cod10k_pairs("Test")
+    order = np.random.default_rng(seed).permutation(len(all_train))
+    n_val = int(len(all_train) * val_fraction)
+    val_pairs = [all_train[i] for i in order[:n_val]]
+    train_pairs = [all_train[i] for i in order[n_val:]]
+    if quick:
+        train_pairs, val_pairs, test_pairs = train_pairs[:160], val_pairs[:40], test_pairs[:100]
+    return train_pairs, val_pairs, test_pairs

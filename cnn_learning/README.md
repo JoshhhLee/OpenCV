@@ -24,9 +24,9 @@ Shared helper files (keep them next to the notebooks):
 - `config.py`: dataset path, image size, device, `cod10k_pairs()` (image/mask pairs, camouflaged images only)
 - `blocks.py`: the Lesson 01 bricks (`ConvBNReLU`, `DoubleConv`, `ResidualBlock`, `DepthwiseSeparableConv`), `show()` and `to_tensor()`
 - `encoders.py`: the Lesson 02 encoders (`UNetEncoder`, `ConfigurableEncoder`, `ResNet50Encoder`)
-- `decoders.py`: the Lesson 03 decoder (`DecoderBlock`, `UNetDecoder`) and `SegModel` (encoder + decoder)
-- `data.py`: `CODDataset` and the OpenCV augmentations (Lesson 04)
-- `train_utils.py`: loss, metrics, `train_one_epoch`, `evaluate` (Lesson 04)
+- `decoders.py`: the Lesson 03 decoder (`DecoderBlock`, `UNetDecoder`), `SegModel` (encoder + decoder) and the Lesson 05 `UNetPlusPlusDecoder`
+- `data.py`: `CODDataset`, the OpenCV augmentations and `make_splits()` (the same train/val/test split for every lesson)
+- `train_utils.py`: loss, metrics, `train_one_epoch`, `evaluate`, `append_result()` (Lesson 04)
 
 Training writes weights to `cnn_learning/checkpoints/` and appends each run to `cnn_learning/outputs/results.csv` (both are git-ignored).
 
@@ -39,8 +39,8 @@ Training writes weights to `cnn_learning/checkpoints/` and appends each run to `
 | 02 | `02_encoder.ipynb` | UNet encoder, configurable encoder (the knobs), pretrained ResNet50, GPU budget | done |
 | 03 | `03_decoder.ipynb` | Upsampling, why skips matter, DecoderBlock/UNetDecoder, the knobs, one-image sanity check | done |
 | 04 | `04_train_unet.ipynb` | Training on COD10K: splits, OpenCV augmentation, DataLoader, BCE+IoU loss, metrics, checkpoints, experiment log | done |
-| 05 | `05_unetpp.ipynb` | UNet++ nested skips, trained and compared in the log | next |
-| 06 | `06_attention.ipynb` | SE / CBAM attention in the skips and decoder | |
+| 05 | `05_unetpp.ipynb` | UNet++ nested skips, deep supervision, pruning, per-image comparison with the UNet baseline | done |
+| 06 | `06_attention.ipynb` | SE / CBAM attention in the skips and decoder | next |
 | 07 | `07_cod_metrics.ipynb` | Full COD evaluation (S-measure, E-measure, weighted F, MAE at original size) and structure loss | |
 | 08 | `08_rf_module.ipynb` | Receptive-field (dilated) modules for multi-scale context | |
 | 09 | `09_sinet.ipynb` | SINet: RF module, search + identification | |
