@@ -22,7 +22,9 @@ Set your dataset path once in `config.py` (`DATASET_ROOT`). The notebooks import
 
 Shared helper files (keep them next to the notebooks):
 - `config.py`: dataset path, image size, device, `cod10k_pairs()` (image/mask pairs, camouflaged images only)
-- `blocks.py`: the Lesson 01 bricks (`ConvBNReLU`, `DoubleConv`, `ResidualBlock`, `DepthwiseSeparableConv`) and `show()`
+- `blocks.py`: the Lesson 01 bricks (`ConvBNReLU`, `DoubleConv`, `ResidualBlock`, `DepthwiseSeparableConv`), `show()` and `to_tensor()`
+- `encoders.py`: the Lesson 02 encoders (`UNetEncoder`, `ConfigurableEncoder`, `ResNet50Encoder`)
+- `decoders.py`: the Lesson 03 decoder (`DecoderBlock`, `UNetDecoder`) and `SegModel` (encoder + decoder)
 
 ## Roadmap
 
@@ -31,11 +33,11 @@ Shared helper files (keep them next to the notebooks):
 | 00 | `00_check_setup.ipynb` | GPU, libraries, dataset layout | done |
 | 01 | `01_conv_blocks.ipynb` | Conv = OpenCV filter, shapes, ConvBNReLU, DoubleConv, Residual, Dilated, Depthwise | done |
 | 02 | `02_encoder.ipynb` | UNet encoder, configurable encoder (the knobs), pretrained ResNet50, GPU budget | done |
-| 03 | `03_decoder.ipynb` | Upsampling + skip connections (concat vs add) | next |
-| 04 | `04_unet.ipynb` | Full UNet from scratch | |
+| 03 | `03_decoder.ipynb` | Upsampling, why skips matter, DecoderBlock/UNetDecoder, the knobs, one-image sanity check | done |
+| 04 | `04_train_unet.ipynb` | Training UNet on COD10K: data loader, augmentation, loss, metrics, checkpoints | next |
 | 05 | `05_resnet_unet.ipynb` | UNet with a pretrained ResNet50 encoder, freezing / fine-tuning | |
 | 06 | `06_unetpp.ipynb` | UNet++ nested skips | |
-| 07 | `07_train_cod.ipynb` | Dataset loader, loss (BCE + IoU), metrics, training on COD | |
+| 07 | `07_cod_metrics.ipynb` | COD metrics (S-measure, E-measure, weighted F, MAE) and structure loss | |
 | 08 | `08_attention.ipynb` | SE / CBAM attention modules | |
 | 09 | `09_sinet.ipynb` | SINet: RF module, search + identification | |
 | 10 | `10_my_cod_net.ipynb` | Your own COD architecture | |

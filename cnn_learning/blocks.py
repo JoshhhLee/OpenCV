@@ -7,7 +7,20 @@ imports it will use your version.
 """
 import cv2
 import matplotlib.pyplot as plt
+import numpy as np
+import torch
 import torch.nn as nn
+
+# Pretrained networks were trained on images normalised with these values (Lesson 02).
+IMAGENET_MEAN = np.array([0.485, 0.456, 0.406], np.float32)
+IMAGENET_STD = np.array([0.229, 0.224, 0.225], np.float32)
+
+
+def to_tensor(image_bgr):
+    """OpenCV BGR uint8 [H, W, 3]  ->  normalised float tensor [1, 3, H, W]."""
+    rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
+    rgb = (rgb - IMAGENET_MEAN) / IMAGENET_STD
+    return torch.from_numpy(rgb).permute(2, 0, 1).unsqueeze(0)
 
 
 def count_params(module):
