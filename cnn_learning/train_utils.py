@@ -83,3 +83,16 @@ def evaluate(model, loader, device, per_image=False):
     if per_image:
         result["per_image_iou"] = ious
     return result
+
+
+def append_result(path, row):
+    """Add one row (a dict) to the experiment log CSV, writing the header if the file is new."""
+    import csv
+    import os
+
+    new_file = not os.path.exists(path)
+    with open(path, "a", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(row.keys()))
+        if new_file:
+            writer.writeheader()
+        writer.writerow(row)

@@ -107,3 +107,53 @@ class SegModel(nn.Module):
 
     def forward(self, x):
         return self.decoder(self.encoder(x), out_size=x.shape[-2:])
+
+
+class UNetPlusPlusDecoder(nn.Module):
+    """
+    UNet++ (Zhou et al., 2018): nested, dense skip connections.
+
+    Nodes X[i][j]:  i = level (0 = highest resolution), j = column.
+      X[i][0]  = encoder feature f(i+1)
+      X[i][j]  = conv( concat( X[i][0], ..., X[i][j-1],  up(X[i+1][j-1]) ) )
+    The final mask comes from X[0][L]. With deep supervision, every X[0][j] gets its own head.
+
+    encoder_channels : the encoder's `.channels` (5 values)
+    level_channels   : channels of the new nodes at levels 0..3 (like decoder_channels in UNet)
+    deep_supervision : train with an output head on every X[0][j]
+    """
+
+    def __init__(self, encoder_channels, level_channels=(32, 64, 128, 256), deep_supervision=False, num_classes=1):
+        super().__init__()
+        e = list(encoder_channels)
+        c = list(level_channels)
+        self.L = len(e) - 1                    # 4 decoder columns for a 5-level encoder
+        self.deep_supervision = deep_supervision
+
+        self.nodes = nn.ModuleDict()
+        for j in range(1, self.L + 1):
+            for i in range(0, self.L + 1 - j):
+                below = e[i + 1] if j == 1 else c[i + 1]          # channels of X[i+1][j-1]
+                in_ch = e[i] + c[i] * (j - 1) + below             # X[i][0] + X[i][1..j-1] + up(below)
+                self.nodes[f"x{i}_{j}"] = DoubleConv(in_ch, c[i])
+
+        n_heads = self.L if deep_supervision else 1
+        self.heads = nn.ModuleList([nn.Conv2d(c[0], num_classes, kernel_size=1) for _ in range(n_heads)])
+
+    def forward(self, feats, out_size=None, all_heads=False):
+        X = {(i, 0): f for i, f in enumerate(feats)}
+        for j in range(1, self.L + 1):
+            for i in range(0, self.L + 1 - j):
+                target = X[(i, 0)].shape[-2:]
+                up = F.interpolate(X[(i + 1, j - 1)], size=target, mode="bilinear", align_corners=False)
+                inputs = [X[(i, k)] for k in range(j)] + [up]
+                X[(i, j)] = self.nodes[f"x{i}_{j}"](torch.cat(inputs, dim=1))
+
+        def finish(logits):
+            if out_size is not None and logits.shape[-2:] != tuple(out_size):
+                logits = F.interpolate(logits, size=out_size, mode="bilinear", align_corners=False)
+            return logits
+
+        if self.deep_supervision and (self.training or all_heads):
+            return [finish(head(X[(0, j)])) for j, head in zip(range(1, self.L + 1), self.heads)]
+        return finish(self.heads[-1](X[(0, self.L)]))
